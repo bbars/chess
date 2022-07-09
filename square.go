@@ -1,5 +1,10 @@
 package chess
 
+import (
+	"encoding/json"
+	"errors"
+)
+
 const (
 	numOfSquaresInBoard = 64
 	numOfSquaresInRow   = 8
@@ -20,6 +25,27 @@ func (sq Square) Rank() Rank {
 
 func (sq Square) String() string {
 	return sq.File().String() + sq.Rank().String()
+}
+
+func (sq Square) MarshalJSON() ([]byte, error) {
+	if sq == NoSquare {
+		return []byte("??"), errors.New("chess: invalid square")
+	}
+	return json.Marshal(sq.String())
+}
+
+func (sq *Square) UnmarshalJSON(data []byte) error {
+	var s *string
+	if err := json.Unmarshal(data, &s); err != nil {
+		return err
+	}
+	newSq, ok := strToSquareMap[*s]
+	if !ok {
+		*sq = NoSquare
+		return errors.New("chess: invalid square")
+	}
+	*sq = newSq
+	return nil
 }
 
 // NewSquare creates a new Square from a File and a Rank

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/md5"
 	"encoding/binary"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"strings"
@@ -166,6 +167,23 @@ func (pos *Position) UnmarshalText(text []byte) error {
 	pos.moveCount = cp.moveCount
 	pos.inCheck = isInCheck(cp)
 	return nil
+}
+
+func (pos Position) MarshalJSON() ([]byte, error) {
+	text, err := pos.MarshalText()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(string(text))
+	// return json.Marshal(pos.String())
+}
+
+func (pos *Position) UnmarshalJSON(data []byte) error {
+	var fen string
+	if err := json.Unmarshal(data, &fen); err != nil {
+		return err
+	}
+	return pos.UnmarshalText([]byte(fen))
 }
 
 const (

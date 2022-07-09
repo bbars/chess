@@ -14,9 +14,9 @@ import (
 // info depth 21 seldepth 31 multipv 1 score cp 39 nodes 862438 nps 860716 hashfull 409 tbhits 0 time 1002 pv e2e4
 // bestmove e2e4 ponder c7c5
 type SearchResults struct {
-	BestMove *chess.Move
-	Ponder   *chess.Move
-	Info     Info
+	BestMove *chess.Move `json:"bestMove"`
+	Ponder   *chess.Move `json:"ponder"`
+	Info     Info        `json:"info"`
 }
 
 // Info corresponds to the "info" engine output:
@@ -84,19 +84,19 @@ type SearchResults struct {
 //    If  is greater than 1, always send all k lines in k strings together.
 // 	The engine should only send this if the option "UCI_ShowCurrLine" is set to true.
 type Info struct {
-	Depth             int
-	Seldepth          int
-	PV                []*chess.Move
-	Multipv           int
-	Time              time.Duration
-	Nodes             int
-	Score             Score
-	CurrentMove       *chess.Move
-	CurrentMoveNumber int
-	Hashfull          int
-	NPS               int
-	TBHits            int
-	CPULoad           int
+	Depth             int           `json:"depth"`
+	Seldepth          int           `json:"seldepth"`
+	PV                []*chess.Move `json:"pv"`
+	Multipv           int           `json:"multiPv"`
+	Time              time.Duration `json:"time"`
+	Nodes             int           `json:"nodes"`
+	Score             Score         `json:"score"`
+	CurrentMove       *chess.Move   `json:"currentMove"`
+	CurrentMoveNumber int           `json:"currentMoveNumber"`
+	Hashfull          int           `json:"hashfull"`
+	NPS               int           `json:"nps"`
+	TBHits            int           `json:"tbHits"`
+	CPULoad           int           `json:"cpuLoad"`
 }
 
 // Score corresponds to the "info"'s score engine output:
@@ -111,10 +111,10 @@ type Info struct {
 // * upperbound
 //    the score is just an upper bound.
 type Score struct {
-	CP         int
-	Mate       int
-	LowerBound bool
-	UpperBound bool
+	CP         int  `json:"cp"`
+	Mate       int  `json:"mate"`
+	LowerBound bool `json:"lowerBound"`
+	UpperBound bool `json:"upperBound"`
 }
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface and parses

@@ -89,6 +89,17 @@ func (p PieceType) String() string {
 	return ""
 }
 
+var (
+	strToPieceTypeMap = map[string]PieceType{
+		"k": King,
+		"q": Queen,
+		"r": Rook,
+		"b": Bishop,
+		"n": Knight,
+		"p": Pawn,
+	}
+)
+
 // Piece is a piece type with a color.
 type Piece int8
 

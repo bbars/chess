@@ -131,8 +131,8 @@ var (
 //    "setoption name Clear Hash\n"
 //    "setoption name NalimovPath value c:\chess\tb\4;c:\chess\tb\5\n"
 type CmdSetOption struct {
-	Name  string
-	Value string
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 func (cmd CmdSetOption) String() string {
@@ -151,8 +151,8 @@ func (cmd CmdSetOption) ProcessResponse(e *Engine) error {
 // Note: no "new" command is needed. However, if this position is from a different game than
 // the last position sent to the engine, the GUI should have sent a "ucinewgame" inbetween.
 type CmdPosition struct {
-	Position *chess.Position
-	Moves    []*chess.Move
+	Position *chess.Position `json:"fen"`
+	Moves    []*chess.Move   `json:"moves"`
 }
 
 func (cmd CmdPosition) String() string {
@@ -216,18 +216,18 @@ func (CmdPosition) ProcessResponse(e *Engine) error {
 // * infinite
 // 	search until the "stop" command. Do not exit the search without being told so in this mode!
 type CmdGo struct {
-	SearchMoves    []*chess.Move
-	Ponder         bool
-	WhiteTime      time.Duration
-	BlackTime      time.Duration
-	WhiteIncrement time.Duration
-	BlackIncrement time.Duration
-	MovesToGo      int
-	Depth          int
-	Nodes          int
-	Mate           int
-	MoveTime       time.Duration
-	Infinite       bool
+	SearchMoves    []*chess.Move `json:"searchMoves"`
+	Ponder         bool          `json:"ponder"`
+	WhiteTime      time.Duration `json:"whiteTime"`
+	BlackTime      time.Duration `json:"blackTime"`
+	WhiteIncrement time.Duration `json:"whiteIncrement"`
+	BlackIncrement time.Duration `json:"blackIncrement"`
+	MovesToGo      int           `json:"movesToGo"`
+	Depth          int           `json:"depth"`
+	Nodes          int           `json:"nodes"`
+	Mate           int           `json:"mate"`
+	MoveTime       time.Duration `json:"moveTime"`
+	Infinite       bool          `json:"infinite"`
 }
 
 func (cmd CmdGo) String() string {
